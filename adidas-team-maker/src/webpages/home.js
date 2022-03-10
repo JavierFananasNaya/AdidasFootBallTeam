@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import "./home.css";
+
 const Home = () => {
   var myInit = {
     method: "GET",
@@ -29,11 +31,16 @@ const Home = () => {
   }, []);
   if (isLoaded && !error) {
     return (
-      <div>
+      <div className="team-list">
         <ul>
           {teams.map((team) => (
             <li key={team.id}>
-              <Link to={`team/${team.id}`}>{team.name}</Link>
+              <Link to={`team/${team.id}`}>
+                <div className="team-list-element">
+                  <img className="team-logo" src={team.crestUrl} alt="Logo" />
+                  <span>{team.name}</span>
+                </div>
+              </Link>
             </li>
           ))}
         </ul>
