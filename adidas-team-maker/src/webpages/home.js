@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
 import "./home.css";
 
-const Home = () => {
+const Home = (props) => {
+
+  const selectTeamHandler = (team) => {
+    props.onSelectTeam(team);
+  };
+
   var myInit = {
     method: "GET",
-    headers: { "X-Auth-Token": "b686dd9575fb4b4cb29967e7f26a60d0" },
-    mode: "cors",
+    headers: { "X-Auth-Token": process.env.REACT_APP_API_KEY },
     dataType: "json",
     cache: "default",
   };
@@ -35,12 +38,12 @@ const Home = () => {
         <ul>
           {teams.map((team) => (
             <li key={team.id}>
-              <Link to={`team/${team.id}`}>
+              <button  onClick={() => selectTeamHandler(team)} key={team.id}>
                 <div className="team-list-element">
                   <img className="team-logo" src={team.crestUrl} alt="Logo" />
                   <span>{team.name}</span>
                 </div>
-              </Link>
+              </button>
             </li>
           ))}
         </ul>
