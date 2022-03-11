@@ -1,0 +1,22 @@
+.team-list {
+  height: 95vh;
+  width: 33vw;
+  padding: 20px;
+  overflow-y: auto;
+}
+
+.team-list > ul {
+  list-style-type: none;
+}
+
+.team-logo {
+  width: 50px;
+  margin-right: 15px;
+  margin-bottom: 15px;
+}
+
+.team-list-element {
+  display: flex;
+  align-content: center;
+  text-align: center;
+}
