@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import "./home.css";
 
 const Home = (props) => {
+  
   const selectTeamHandler = (team) => {
     props.onSelectTeam(team);
   };
@@ -20,7 +21,6 @@ const Home = (props) => {
       .request(options)
       .then((response) => {
         setIsLoaded(true);
-        console.log(response);
         setTeams(response.data.teams);
       })
       .catch((error) => {
