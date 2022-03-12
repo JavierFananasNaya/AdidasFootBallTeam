@@ -21,7 +21,6 @@ const Home = (props) => {
       .request(options)
       .then((response) => {
         setIsLoaded(true);
-        console.log(response);
         setTeams(response.data.teams);
       })
       .catch((error) => {

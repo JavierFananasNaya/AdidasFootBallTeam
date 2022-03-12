@@ -10,7 +10,6 @@ const Team = (props) => {
 
 
   const addPlayerHandler = (player) => {
-    console.log(player);
     props.onSelectPlayer(player);
   };
 
@@ -26,9 +25,13 @@ const Team = (props) => {
     axios
       .request(options)
       .then((response) => {
+        // Adding team id to player properties
+        response.data.squad.map(function(player) {
+          player.teamId = teamId;
+          return player;
+        })
         setTeamData(response.data);
         setIsLoaded(true);
-        console.log(response.data);
       })
       .catch((error) => {
         setIsLoaded(true);
@@ -46,8 +49,8 @@ const Team = (props) => {
               {teamData.squad?.map((player) => (
                 <li key={player.id}>
                   <div className="player-container">
-                    <div>{player.name}</div>
-                    <button onClick={() => addPlayerHandler(player)}>Add to My Team!</button>
+                    <div>{player.name} - {player.position} - {player.role}</div>
+                    <button onClick={() => addPlayerHandler(player, teamId)}>Add to My Team! {teamId}</button>
                   </div>
                 </li>
               ))}

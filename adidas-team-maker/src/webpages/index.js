@@ -15,8 +15,6 @@ const Webpages = () => {
   const myTeamRef = useRef();
 
   const selectPlayerHandler = (selectedPlayer) => {
-    // ADD LOGIC TO CALL CHILD FUNCTION TO ADD PLAYER
-    console.log('Soy padre y he recibido a ', selectedPlayer);
     myTeamRef.current.addPlayer(selectedPlayer);
   };
 
