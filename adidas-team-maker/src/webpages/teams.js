@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import axios from "axios";
 const Team = (props) => {
   const teamId = props.selectedTeam ? props.selectedTeam.id : null;
   const [lastTeamId, setLastTeamId] = useState(-1);
@@ -7,35 +8,28 @@ const Team = (props) => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [teamData, setTeamData] = useState(null);
 
-  var myInit = {
-    method: "GET",
-    headers: { "X-Auth-Token": process.env.REACT_APP_API_KEY },
-    dataType: "json",
-    cache: "default",
-  };
   console.log(teamId, lastTeamId);
 
   if (teamId && teamId !== lastTeamId) {
     setLastTeamId(teamId);
-    console.log("AAAAAAAAAAAA");
-    var teamPlayersRequest = new Request(
-      `https://api.football-data.org/v2/teams/${teamId}`,
-      myInit
-    );
-    fetch(teamPlayersRequest)
-      .then((res) => res.json())
-      .then(
-        (data) => {
-          setTeamData(data);
-          setIsLoaded(true);
-          setError(null);
-          console.log(data);
-        },
-        (error) => {
-          setIsLoaded(true);
-          setError(error);
-        }
-      );
+
+    const options = {
+      method: "GET",
+      url: "http://localhost:8000/teamInfo",
+      params: {id: teamId}
+    };
+
+    axios
+      .request(options)
+      .then((response) => {
+        setTeamData(response.data);
+        setIsLoaded(true);
+        console.log(response.data);
+      })
+      .catch((error) => {
+        setIsLoaded(true);
+        setError(error);
+      });
   }
 
   if (teamId) {
