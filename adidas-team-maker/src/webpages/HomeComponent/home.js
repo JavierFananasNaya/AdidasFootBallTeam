@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import "./home.css";
 
 const Home = (props) => {
+  
   const selectTeamHandler = (team) => {
     props.onSelectTeam(team);
   };

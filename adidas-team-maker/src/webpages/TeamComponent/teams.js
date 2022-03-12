@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import './teams.css'
 import axios from "axios";
 const Team = (props) => {
   const teamId = props.selectedTeam ? props.selectedTeam.id : null;
@@ -8,7 +8,11 @@ const Team = (props) => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [teamData, setTeamData] = useState(null);
 
-  console.log(teamId, lastTeamId);
+
+  const addPlayerHandler = (player) => {
+    console.log(player);
+    props.onSelectPlayer(player);
+  };
 
   if (teamId && teamId !== lastTeamId) {
     setLastTeamId(teamId);
@@ -16,7 +20,7 @@ const Team = (props) => {
     const options = {
       method: "GET",
       url: "http://localhost:8000/teamInfo",
-      params: {id: teamId}
+      params: { id: teamId },
     };
 
     axios
@@ -39,9 +43,12 @@ const Team = (props) => {
           <h1>Team Details: {teamData.name}</h1>
           <div>
             <ul>
-              {teamData.squad?.map((team) => (
-                <li key={team.id}>
-                  <div>{team.name}</div>
+              {teamData.squad?.map((player) => (
+                <li key={player.id}>
+                  <div className="player-container">
+                    <div>{player.name}</div>
+                    <button onClick={() => addPlayerHandler(player)}>Add to My Team!</button>
+                  </div>
                 </li>
               ))}
             </ul>
