@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import Home from "./HomeComponent/home";
 import Team from "./TeamComponent/teams";
 import MyTeam from "./MyTeamComponent/MyTeam";
@@ -12,25 +12,19 @@ const Webpages = () => {
     setSelectedTeam(selectedTeamFromList);
   };
 
-  const myTeamAddPlayer = React.useRef(null)
+  const myTeamRef = useRef();
 
   const selectPlayerHandler = (selectedPlayer) => {
     // ADD LOGIC TO CALL CHILD FUNCTION TO ADD PLAYER
     console.log('Soy padre y he recibido a ', selectedPlayer);
-    myTeamAddPlayer.current()
+    myTeamRef.current.addPlayer(selectedPlayer);
   };
 
   return (
     <div className="layout">
       <Home onSelectTeam={selectTeamHandler}></Home>
       <Team selectedTeam={selectedTeam} onSelectPlayer={selectPlayerHandler}></Team>
-      <MyTeam myTeamAddPlayer={myTeamAddPlayer}></MyTeam>
-      {/* <Router>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/team/:id" element={<Team />} />
-        </Routes>
-      </Router> */}
+      <MyTeam ref={myTeamRef}></MyTeam>
     </div>
   );
 };
