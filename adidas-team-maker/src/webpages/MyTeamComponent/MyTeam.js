@@ -1,4 +1,5 @@
 import React, { forwardRef, useState, useImperativeHandle } from "react";
+import './MyTeam.scss';
 
 const MyTeam = forwardRef((props, ref) => {
   const [playerList, setPlayerList] = useState([]);

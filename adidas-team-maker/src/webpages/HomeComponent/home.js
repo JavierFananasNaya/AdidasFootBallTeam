@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
-import "./home.css";
+import "./home.scss";
 
 const Home = (props) => {
   
@@ -34,10 +34,10 @@ const Home = (props) => {
         <ul>
           {teams.map((team) => (
             <li key={team.id}>
-              <button onClick={() => selectTeamHandler(team)} key={team.id}>
+              <button className="team-button" onClick={() => selectTeamHandler(team)} key={team.id}>
                 <div className="team-list-element">
                   <img className="team-logo" src={team.crestUrl} alt="Logo" />
-                  <span>{team.name}</span>
+                  <div className="team-name">{team.name}</div>
                 </div>
               </button>
             </li>

@@ -1,0 +1,44 @@
+.team-list {
+  height: 95vh;
+  width: 33vw;
+  padding: 20px;
+  overflow-y: auto;
+  background-color: rgb(104, 104, 104);
+}
+
+.team-list {
+  ul {
+    list-style-type: none;
+    padding: 0;
+  }
+}
+
+ul {
+  li {
+    display: flex;
+    justify-content: center;
+  }
+} 
+
+.team-logo {
+  width: 40%;
+}
+
+.team-name {
+  font-size: 2vw;
+  color: aliceblue;
+  font-family: "AdineuePRO",Helvetica,Arial,sans-serif;
+  text-transform: uppercase;
+}
+
+.team-button {
+  padding: 15px;
+  background-color: rgb(53, 58, 58);
+  border-radius: 10px;
+  width: 90%;
+  margin: 10px;
+  &:hover {
+    box-shadow: 0 0 8px rgb(229, 234, 236);
+  }
+
+}

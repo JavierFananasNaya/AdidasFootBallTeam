@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import './teams.css'
 import axios from "axios";
+import './teams.scss'
+
 const Team = (props) => {
   const teamId = props.selectedTeam ? props.selectedTeam.id : null;
   const [lastTeamId, setLastTeamId] = useState(-1);

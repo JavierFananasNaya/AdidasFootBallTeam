@@ -2,7 +2,7 @@ import React, { useState, useRef } from "react";
 import Home from "./HomeComponent/home";
 import Team from "./TeamComponent/teams";
 import MyTeam from "./MyTeamComponent/MyTeam";
-import './index.css';
+import './index.scss';
 
 const Webpages = () => {
 
