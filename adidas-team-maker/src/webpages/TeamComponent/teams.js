@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import axios from "axios";
-import './teams.scss'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import './teams.scss';
+
 
 const Team = (props) => {
   const teamId = props.selectedTeam ? props.selectedTeam.id : null;
@@ -44,14 +46,14 @@ const Team = (props) => {
     if (isLoaded && !error) {
       return (
         <div>
-          <h1>Team Details: {teamData.name}</h1>
-          <div>
+          <div className="player-list-container">
+          <h1 className="title">{teamData.name}</h1>
             <ul>
               {teamData.squad?.map((player) => (
                 <li key={player.id}>
                   <div className="player-container">
-                    <div>{player.name} - {player.position} - {player.role}</div>
-                    <button onClick={() => addPlayerHandler(player, teamId)}>Add to My Team! {teamId}</button>
+                    <div className="player-name">{player.name} - {player.position}</div>
+                    <button onClick={() => addPlayerHandler(player)}><FontAwesomeIcon icon="plus" /></button>
                   </div>
                 </li>
               ))}

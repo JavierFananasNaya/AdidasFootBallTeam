@@ -1,4 +1,58 @@
+.player-list-container {
+  height: 95vh;
+  width: 33vw;
+  padding: 0 20px 20px 20px;
+  overflow-y: auto;
+  background-color: rgb(104, 104, 104);
+  > .title {
+      background-color: rgb(104, 104, 104);
+    color: aliceblue;
+    position: sticky;
+    justify-items: center;
+    top: 0;
+  }
+  > ul {
+    padding: 0;
+  }
+}
 .player-container {
-    display: flex;
-    
+  display: flex;
+  justify-content: space-between;
+  background-color: rgb(53, 58, 58);
+  border-radius: 10px;
+  padding: 5px;
+  margin: 5px 0px 5px;
+  width: 100%;
+  height: 9vh;
+  align-items: center;
+
+  .player-name {
+      color: aliceblue;
+      font-weight: bold;
+      padding-left: 10px;
+  }
+
+  > button {
+    display: none;
+  }
+  &:hover {
+    > button {
+      display: block;
+    }
+  }
+
+  button {
+    background: transparent;
+    border: none;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    color: aliceblue;
+    font-weight: bold;
+    &:hover {
+      transition: 0.3s;
+      background-color: #27f327;
+      cursor: pointer;
+    }
+  }
 }
