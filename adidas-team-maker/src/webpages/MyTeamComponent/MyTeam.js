@@ -1,4 +1,4 @@
-import React, { forwardRef, useState, useImperativeHandle } from "react";
+import React, { forwardRef, useState, useImperativeHandle, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./MyTeam.scss";
 
@@ -10,6 +10,19 @@ const MyTeam = forwardRef((props, ref) => {
   const MaxGoal = 2;
   const MaxTeamSize = 16;
   const MaxSameTeam = 4;
+
+  useEffect(() => {
+    if(localStorage.getItem('myTeam')){
+      setPlayerList(JSON.parse(localStorage.getItem('myTeam')));
+    }
+  })
+  
+  const saveTeamHandler = () => {
+    if( localStorage.getItem('myTeam')){
+      localStorage.removeItem('myTeam');
+    }
+    localStorage.setItem('myTeam', JSON.stringify(playerList));
+  };
 
   const deletePlayerHandler = (player) => {
     let newList = [...playerList];
@@ -113,6 +126,9 @@ const MyTeam = forwardRef((props, ref) => {
             </div>
           ))}
         </ul>
+        <div className="button-container">
+          <button onClick={() => saveTeamHandler()}>Save Your Team!</button>
+        </div>
       </div>
     );
   }
