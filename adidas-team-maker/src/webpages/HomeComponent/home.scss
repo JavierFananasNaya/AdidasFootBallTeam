@@ -3,7 +3,16 @@
   width: 33vw;
   padding: 20px;
   overflow-y: auto;
-  background-color: rgb(104, 104, 104);
+  background-color: #181818;
+}
+
+.loading{
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: aliceblue;
+  font-weight: bold;
 }
 
 .team-list {
@@ -34,9 +43,11 @@ ul {
 .team-button {
   padding: 15px;
   background-color: rgb(53, 58, 58);
+  cursor: pointer;
   border-radius: 10px;
   width: 90%;
   margin: 10px;
+  border: 2px solid aliceblue;
   &:hover {
     box-shadow: 0 0 8px rgb(229, 234, 236);
   }

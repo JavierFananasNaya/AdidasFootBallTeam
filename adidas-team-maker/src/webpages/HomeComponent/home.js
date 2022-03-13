@@ -3,7 +3,6 @@ import React, { useState, useEffect } from "react";
 import "./home.scss";
 
 const Home = (props) => {
-  
   const selectTeamHandler = (team) => {
     props.onSelectTeam(team);
   };
@@ -34,7 +33,11 @@ const Home = (props) => {
         <ul>
           {teams.map((team) => (
             <li key={team.id}>
-              <button className="team-button" onClick={() => selectTeamHandler(team)} key={team.id}>
+              <button
+                className="team-button"
+                onClick={() => selectTeamHandler(team)}
+                key={team.id}
+              >
                 <div className="team-list-element">
                   <img className="team-logo" src={team.crestUrl} alt="Logo" />
                   <div className="team-name">{team.name}</div>
@@ -46,7 +49,11 @@ const Home = (props) => {
       </div>
     );
   } else if (!isLoaded && !error) {
-    return <h2> LOADING</h2>;
+    return (
+      <div className="loading">
+        <div>Loading...</div>
+      </div>
+    );
   } else if (error) {
     return <h2> Error: {error.message}</h2>;
   }

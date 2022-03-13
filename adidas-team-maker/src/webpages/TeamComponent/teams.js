@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import './teams.scss';
-
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import "./teams.scss";
 
 const Team = (props) => {
   const teamId = props.selectedTeam ? props.selectedTeam.id : null;
@@ -10,7 +9,6 @@ const Team = (props) => {
   const [error, setError] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
   const [teamData, setTeamData] = useState(null);
-
 
   const addPlayerHandler = (player) => {
     props.onSelectPlayer(player);
@@ -29,10 +27,10 @@ const Team = (props) => {
       .request(options)
       .then((response) => {
         // Adding team id to player properties
-        response.data.squad.map(function(player) {
+        response.data.squad.map(function (player) {
           player.teamId = teamId;
           return player;
-        })
+        });
         setTeamData(response.data);
         setIsLoaded(true);
       })
@@ -47,13 +45,18 @@ const Team = (props) => {
       return (
         <div>
           <div className="player-list-container">
-          <h1 className="title">{teamData.name}</h1>
+            <h1 className="title">{teamData.name}</h1>
             <ul>
               {teamData.squad?.map((player) => (
                 <li key={player.id}>
                   <div className="player-container">
-                    <div className="player-name">{player.name} - {player.position}</div>
-                    <button onClick={() => addPlayerHandler(player)}><FontAwesomeIcon icon="plus" /></button>
+                    <div className="player-name">
+                      <span>{player.name} </span>
+                      <span className="player-position">{player.position}</span>
+                    </div>
+                    <button onClick={() => addPlayerHandler(player)}>
+                      <FontAwesomeIcon icon="plus" />
+                    </button>
                   </div>
                 </li>
               ))}
@@ -67,7 +70,7 @@ const Team = (props) => {
       return <h2> Error: {error.message}</h2>;
     }
   } else {
-    return <div>Select a team</div>;
+    return <div></div>;
   }
 };
 export default Team;
