@@ -7,11 +7,12 @@ const Team = (props) => {
   const teamId = props.selectedTeam ? props.selectedTeam.id : null;
   const [lastTeamId, setLastTeamId] = useState(-1);
   const [error, setError] = useState(null);
-  const [isLoaded, setIsLoaded] = useState(false);
+  const [isPlayersLoaded, setIsPlayersLoaded] = useState(false);
+  const [isCoachLoaded, setIsCoachLoaded] = useState(false);
   const [teamData, setTeamData] = useState({coach: null, players: []});
 
-  const addPlayerHandler = (player) => {
-    props.onSelectPlayer(player);
+  const addPlayerHandler = (player, type) => {
+    props.onSelectPlayer(player, type);
   };
 
   if (teamId && teamId !== lastTeamId) {
@@ -20,6 +21,12 @@ const Team = (props) => {
     const options = {
       method: "GET",
       url: "http://localhost:8000/teamInfo",
+      params: { id: teamId },
+    };
+
+    const coachOptions = {
+      method: "GET",
+      url: "http://localhost:8000/coach",
       params: { id: teamId },
     };
 
@@ -34,16 +41,31 @@ const Team = (props) => {
         setTeamData((prevTeam) => {
           return {coach: prevTeam.coach, players: response.data.response}
         })
-        setIsLoaded(true);
+        setIsPlayersLoaded(true);
       })
       .catch((error) => {
-        setIsLoaded(true);
+        setIsPlayersLoaded(true);
+        setError(error);
+      });
+
+
+      axios
+      .request(coachOptions)
+      .then((response) => {
+        console.log(response.data.response[0]);
+        setTeamData((prevTeam) => {
+          return {coach: response.data.response[0], players: prevTeam.players}
+        })
+        setIsCoachLoaded(true);
+      })
+      .catch((error) => {
+        setIsCoachLoaded(true);
         setError(error);
       });
   }
 
   if (teamId) {
-    if (isLoaded && !error) {
+    if (isPlayersLoaded && !error) {
       return (
         <div>
           <div className="player-list-container">
@@ -52,6 +74,20 @@ const Team = (props) => {
               <h1 className="title">{teamData.players[0]?.statistics[0].team.name}</h1>
             </div>
             <ul>
+              {teamData.coach &&
+              <li key={teamData.coach.id}>
+                <div className="player-container coach">
+                  <div className="player-name">
+                    <img className="player-photo" src={teamData.coach.photo}></img>
+                    <span>{teamData.coach.name} </span>
+                    <span className="player-position">COACH</span>
+                  </div>
+                  <button onClick={() => addPlayerHandler(teamData.coach, 'coach')}>
+                    <FontAwesomeIcon icon="plus" />
+                  </button>
+                </div>
+              </li>
+              }
               {teamData.players?.map((player) => (
                 <li key={player.player.id}>
                   <div className="player-container">
@@ -60,7 +96,7 @@ const Team = (props) => {
                       <span>{player.player.name} </span>
                       <span className="player-position">{player.statistics[0].games.position}</span>
                     </div>
-                    <button onClick={() => addPlayerHandler(player)}>
+                    <button onClick={() => addPlayerHandler(player, 'player')}>
                       <FontAwesomeIcon icon="plus" />
                     </button>
                   </div>
@@ -70,7 +106,7 @@ const Team = (props) => {
           </div>
         </div>
       );
-    } else if (!isLoaded && !error) {
+    } else if (!isPlayersLoaded && !error) {
       return <h2> LOADING TEAM</h2>;
     } else if (error) {
       return <h2> Error: {error.message}</h2>;

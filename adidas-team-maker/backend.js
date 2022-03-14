@@ -58,4 +58,26 @@ app.get("/teamInfo", (req, res) => {
     });
 });
 
+app.get("/coach", (req, res) => {
+  const id = req.query.id;
+  const options = {
+    method: "GET",
+    params: { team: id.toString() },
+    url: `https://api-football-v1.p.rapidapi.com/v3/coachs`,
+    headers: {
+      "x-rapidapi-host": "api-football-v1.p.rapidapi.com",
+      "x-rapidapi-key": process.env.REACT_APP_API_KEY
+    },
+  };
+
+  axios
+    .request(options)
+    .then((response) => {
+      res.json(response.data);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+});
+
 app.listen(8000, () => console.log(`server is running on port ${PORT}`));

@@ -14,8 +14,8 @@ const Webpages = () => {
 
   const myTeamRef = useRef();
 
-  const selectPlayerHandler = (selectedPlayer) => {
-    myTeamRef.current.addPlayer(selectedPlayer);
+  const selectPlayerHandler = (selectedPlayer, type) => {
+    myTeamRef.current.addPlayer(selectedPlayer, type);
   };
 
   return (
