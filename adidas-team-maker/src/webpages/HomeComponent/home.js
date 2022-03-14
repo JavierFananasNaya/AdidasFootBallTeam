@@ -19,8 +19,8 @@ const Home = (props) => {
     axios
       .request(options)
       .then((response) => {
+        setTeams(response.data.response);
         setIsLoaded(true);
-        setTeams(response.data.teams);
       })
       .catch((error) => {
         setIsLoaded(true);
@@ -32,15 +32,15 @@ const Home = (props) => {
       <div className="team-list">
         <ul>
           {teams.map((team) => (
-            <li key={team.id}>
+            <li key={team.team.id}>
               <button
                 className="team-button"
-                onClick={() => selectTeamHandler(team)}
-                key={team.id}
+                onClick={() => selectTeamHandler(team.team)}
+                key={team.team.id}
               >
                 <div className="team-list-element">
-                  <img className="team-logo" src={team.crestUrl} alt="Logo" />
-                  <div className="team-name">{team.name}</div>
+                  <img className="team-logo" src={team.team.logo} alt="Logo" />
+                  <div className="team-name">{team.team.name}</div>
                 </div>
               </button>
             </li>

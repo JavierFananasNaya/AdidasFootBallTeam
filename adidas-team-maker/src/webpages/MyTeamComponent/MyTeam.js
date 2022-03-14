@@ -4,6 +4,7 @@ import "./MyTeam.scss";
 
 const MyTeam = forwardRef((props, ref) => {
   const [playerList, setPlayerList] = useState([]);
+  const [auxPlayerList, setAuxPlayerList] = useState([]);
   const MaxDef = 4;
   const MaxMid = 4;
   const MaxAtck = 2;
@@ -12,7 +13,8 @@ const MyTeam = forwardRef((props, ref) => {
   const MaxSameTeam = 4;
 
   useEffect(() => {
-    if(localStorage.getItem('myTeam')){
+    if(localStorage.getItem('myTeam') && auxPlayerList.length === 0){
+      setAuxPlayerList(JSON.parse(localStorage.getItem('myTeam')));
       setPlayerList(JSON.parse(localStorage.getItem('myTeam')));
     }
   })
@@ -26,66 +28,52 @@ const MyTeam = forwardRef((props, ref) => {
 
   const deletePlayerHandler = (player) => {
     let newList = [...playerList];
-    let index = newList.findIndex((x) => x.id === player.id);
+    let index = newList.findIndex((x) => x.player.id === player.player.id);
     newList.splice(index, 1);
     setPlayerList(newList);
   };
 
   useImperativeHandle(ref, () => ({
     addPlayer(player) {
+      console.log(player);
       setPlayerList((prevList) => {
         let validPlayer = true;
         let auxList = [...prevList];
 
-        if (auxList.findIndex((x) => x.id === player.id) !== -1) {
+        if (auxList.findIndex((x) => x.player.id === player.player.id) !== -1) {
           validPlayer = false;
         }
 
         //Check  for conditions
-        switch (player.position) {
+        switch (player.statistics[0].games.position) {
           case "Attacker":
-            if (
-              auxList.filter((x) => x.position === "Attacker").length >
-              MaxAtck - 1
-            ) {
+            if (auxList.filter((x) => x.statistics[0].games.position === "Attacker").length > MaxAtck - 1) {
               console.log("te pasas de atackers");
               validPlayer = false;
             }
             break;
           case "Goalkeeper":
-            if (
-              auxList.filter((x) => x.position === "Goalkeeper").length >
-              MaxGoal - 1
-            ) {
+            if (auxList.filter((x) => x.statistics[0].games.position === "Goalkeeper").length > MaxGoal - 1) {
               console.log("te pasas de golakeepers");
               validPlayer = false;
             }
             break;
           case "Defender":
-            if (
-              auxList.filter((x) => x.position === "Defender").length >
-              MaxDef - 1
-            ) {
+            if ( auxList.filter((x) => x.statistics[0].games.position === "Defender").length > MaxDef - 1) {
               console.log("te pasas de defenders");
               validPlayer = false;
             }
             break;
 
           case "Midfielder":
-            if (
-              auxList.filter((x) => x.position === "Midfielder").length >
-              MaxMid - 1
-            ) {
+            if (auxList.filter((x) => x.statistics[0].games.position === "Midfielder").length > MaxMid - 1) {
               console.log("te pasas de midfielders");
               validPlayer = false;
             }
             break;
         }
 
-        if (
-          auxList.filter((x) => x.teamId === player.teamId).length >
-          MaxSameTeam - 1
-        ) {
+        if ( auxList.filter((x) => x.player.teamId === player.player.teamId).length > MaxSameTeam - 1 ) {
           console.log("te pasas del mismo team");
           validPlayer = false;
         }
@@ -96,6 +84,7 @@ const MyTeam = forwardRef((props, ref) => {
         }
 
         if (validPlayer === true) {
+          
           return [...prevList, player];
         } else {
           return [...prevList];
@@ -112,10 +101,12 @@ const MyTeam = forwardRef((props, ref) => {
         <h1 className="title">Your Adidas team!:</h1>
         <ul className="player-list">
           {playerList.map((player) => (
-            <div className="player-container" key={player.id}>
+            <div className="player-container" key={player.player.id}>
               <div className="player-name">
-                <span>{player.name} </span>
-                <span className="player-position">{player.position}</span>
+                <img className="player-photo" src={player.player.photo}></img>
+                <span>{player.player.name} </span>
+                <span className="player-position">{player.statistics[0].games.position}</span>
+                <img className="team-logo" src={player.statistics[0].team.logo}></img>
               </div>
               <button
                 className="delete-button"

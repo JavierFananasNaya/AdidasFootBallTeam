@@ -16,7 +16,13 @@
   }
 }
 
-.player-container {  
+.player-container {
+    .team-logo {
+      border: none;
+      width: auto;
+      height: 8vh;
+      margin-left: 5px;
+    }  
     .delete-button {
       background: transparent;
       border: none;

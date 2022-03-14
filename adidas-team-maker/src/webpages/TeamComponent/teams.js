@@ -8,7 +8,7 @@ const Team = (props) => {
   const [lastTeamId, setLastTeamId] = useState(-1);
   const [error, setError] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
-  const [teamData, setTeamData] = useState(null);
+  const [teamData, setTeamData] = useState({coach: null, players: []});
 
   const addPlayerHandler = (player) => {
     props.onSelectPlayer(player);
@@ -27,11 +27,13 @@ const Team = (props) => {
       .request(options)
       .then((response) => {
         // Adding team id to player properties
-        response.data.squad.map(function (player) {
-          player.teamId = teamId;
+        response.data.response.map(function (player) {
+          player.player.teamId = teamId;
           return player;
         });
-        setTeamData(response.data);
+        setTeamData((prevTeam) => {
+          return {coach: prevTeam.coach, players: response.data.response}
+        })
         setIsLoaded(true);
       })
       .catch((error) => {
@@ -45,14 +47,18 @@ const Team = (props) => {
       return (
         <div>
           <div className="player-list-container">
-            <h1 className="title">{teamData.name}</h1>
+            <div className="header">
+              <img src={teamData.players[0]?.statistics[0].team.logo}></img>
+              <h1 className="title">{teamData.players[0]?.statistics[0].team.name}</h1>
+            </div>
             <ul>
-              {teamData.squad?.map((player) => (
-                <li key={player.id}>
+              {teamData.players?.map((player) => (
+                <li key={player.player.id}>
                   <div className="player-container">
                     <div className="player-name">
-                      <span>{player.name} </span>
-                      <span className="player-position">{player.position}</span>
+                      <img className="player-photo" src={player.player.photo}></img>
+                      <span>{player.player.name} </span>
+                      <span className="player-position">{player.statistics[0].games.position}</span>
                     </div>
                     <button onClick={() => addPlayerHandler(player)}>
                       <FontAwesomeIcon icon="plus" />
