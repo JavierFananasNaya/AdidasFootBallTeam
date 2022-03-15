@@ -137,17 +137,33 @@ const MyTeam = forwardRef((props, ref) => {
   }));
 
   if (myTeam.players?.length === 0 && !myTeam.coach) {
-    return <div>
-      <div className="button-container">
-          {teamValid &&
-          <button onClick={() => saveTeamHandler()}>Save Your Team!</button>
-          }
+    return (
+
+      <div className="myteam-list-container">
+
+        <div className="my-team-header">
+          {/* <img  src='../../resources/logos/adidas_logo_400.png' alt=""></img> */}
+          <h1 className="title">Your Adidas team!:</h1>
+          <div className="button-container">
+              {teamValid &&
+              <button className="save-team-button" onClick={() => saveTeamHandler()}><FontAwesomeIcon icon="save" /></button>
+            }
+            </div>
         </div>
-    </div>;
+      </div>
+    )
   } else {
     return (
       <div className="myteam-list-container">
-        <h1 className="title">Your Adidas team!:</h1>
+        <div className="my-team-header">
+          {/* <img  src='../../resources/logos/adidas_logo_400.png' alt=""></img> */}
+          <h1 className="title">Your Adidas team!:</h1>
+          <div className="button-container">
+              {teamValid &&
+              <button className="save-team-button" onClick={() => saveTeamHandler()}><FontAwesomeIcon icon="save" /></button>
+            }
+            </div>
+        </div>
         <ul className="player-list">
           {myTeam.coach && (
             <li key={myTeam.coach.id}>

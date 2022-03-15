@@ -52,7 +52,6 @@ const Team = (props) => {
       axios
       .request(coachOptions)
       .then((response) => {
-        console.log(response.data.response[0]);
         setTeamData((prevTeam) => {
           return {coach: response.data.response[0], players: prevTeam.players}
         })
