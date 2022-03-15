@@ -2,7 +2,7 @@ import React, { useState, useRef } from "react";
 import Home from "./HomeComponent/home";
 import Team from "./TeamComponent/teams";
 import MyTeam from "./MyTeamComponent/MyTeam";
-import './index.css';
+import './index.scss';
 
 const Webpages = () => {
 
@@ -14,15 +14,15 @@ const Webpages = () => {
 
   const myTeamRef = useRef();
 
-  const selectPlayerHandler = (selectedPlayer) => {
-    myTeamRef.current.addPlayer(selectedPlayer);
+  const selectPlayerHandler = (selectedPlayer, type) => {
+    myTeamRef.current.addPlayer(selectedPlayer, type);
   };
 
   return (
     <div className="layout">
-      <Home onSelectTeam={selectTeamHandler}></Home>
-      <Team selectedTeam={selectedTeam} onSelectPlayer={selectPlayerHandler}></Team>
-      <MyTeam ref={myTeamRef}></MyTeam>
+      <Home id="teamSelector" onSelectTeam={selectTeamHandler}></Home>
+      <Team id="squadSelector" selectedTeam={selectedTeam} onSelectPlayer={selectPlayerHandler}></Team>
+      <MyTeam id="myTeam" ref={myTeamRef}></MyTeam>
     </div>
   );
 };
