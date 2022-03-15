@@ -111,7 +111,11 @@ const Team = (props) => {
       return <h2> Error: {error.message}</h2>;
     }
   } else {
-    return <div></div>;
+    return(
+      <div className="player-list-container">
+        <div>Select a team to load its info</div>
+      </div> 
+      )
   }
 };
 export default Team;

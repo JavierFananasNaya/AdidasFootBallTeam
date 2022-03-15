@@ -20,9 +20,9 @@ const Webpages = () => {
 
   return (
     <div className="layout">
-      <Home onSelectTeam={selectTeamHandler}></Home>
-      <Team selectedTeam={selectedTeam} onSelectPlayer={selectPlayerHandler}></Team>
-      <MyTeam ref={myTeamRef}></MyTeam>
+      <Home id="teamSelector" onSelectTeam={selectTeamHandler}></Home>
+      <Team id="squadSelector" selectedTeam={selectedTeam} onSelectPlayer={selectPlayerHandler}></Team>
+      <MyTeam id="myTeam" ref={myTeamRef}></MyTeam>
     </div>
   );
 };
