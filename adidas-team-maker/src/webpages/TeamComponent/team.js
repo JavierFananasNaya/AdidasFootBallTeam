@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import "./teams.scss";
+import "./team.scss";
 
 const Team = (props) => {
+  console.log(props.selectedTeam)
   const teamId = props.selectedTeam ? props.selectedTeam.id : null;
   const [lastTeamId, setLastTeamId] = useState(-1);
   const [error, setError] = useState(null);
@@ -106,14 +107,19 @@ const Team = (props) => {
         </div>
       );
     } else if (!isPlayersLoaded && !error) {
-      return <h2> LOADING TEAM</h2>;
+      
+      return (
+        <div className="player-list-container">
+          <div className="select-message">LOADING TEAM</div>
+        </div>
+      );
     } else if (error) {
       return <h2> Error: {error.message}</h2>;
     }
   } else {
     return(
       <div className="player-list-container">
-        <div>Select a team to load its info</div>
+        <div className="select-message">Select a team to load its info</div>
       </div> 
       )
   }
