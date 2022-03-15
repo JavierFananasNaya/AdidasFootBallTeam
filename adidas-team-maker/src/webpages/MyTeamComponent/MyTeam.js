@@ -11,17 +11,55 @@ const MyTeam = forwardRef((props, ref) => {
   const [myTeam, setMyTeam] = useState({ coach: null, players: [] });
   // const [playerList, setPlayerList] = useState([]);
   const [auxPlayerList, setAuxPlayerList] = useState([]);
-  const MaxDef = 4;
-  const MaxMid = 4;
-  const MaxAtck = 2;
-  const MaxGoal = 2;
+  const [teamValid, setTeamValid] = useState(true);
+  const [auxValid, setAuxValid] = useState(true);
+  const MinGoalK = 2;
+  const MinDef = 4;
+  const MinMid = 4;
+  const MinAtck = 2;
   const MaxTeamSize = 16;
   const MaxSameTeam = 4;
+
+  const checkTeamValid = (teamToCheck) => {
+    let isValid = true;
+    let auxList = [...teamToCheck.players];
+
+    if(!teamToCheck.coach && auxList.length === 0){
+      isValid = true;
+    } else {
+      if (!teamToCheck.coach) {
+        isValid = false;
+      }
+  
+      if ( auxList.filter((x) => x.statistics[0].games.position === "Goalkeeper").length < MinGoalK) {
+        isValid = false;
+      }
+      
+      if ( auxList.filter((x) => x.statistics[0].games.position === "Defender").length < MinDef) {
+        isValid = false;
+      }
+  
+      if ( auxList.filter((x) => x.statistics[0].games.position === "Midfielder").length < MinMid) {
+        isValid = false;
+      }
+      
+      if ( auxList.filter((x) => x.statistics[0].games.position === "Attacker").length < MinAtck) {
+        isValid = false;
+      }
+    }
+    if(isValid !== auxValid){
+      setAuxValid(isValid);
+      setTeamValid(isValid);
+    }
+  }
+
+  checkTeamValid(myTeam);
 
   useEffect(() => {
     if (localStorage.getItem("myTeam") && auxPlayerList.length === 0) {
       setAuxPlayerList(JSON.parse(localStorage.getItem("myTeam")));
       setMyTeam(JSON.parse(localStorage.getItem("myTeam")));
+      setTeamValid(true);
     }
   });
 
@@ -32,19 +70,27 @@ const MyTeam = forwardRef((props, ref) => {
     localStorage.setItem("myTeam", JSON.stringify(myTeam));
   };
 
-  const deletePlayerHandler = (player) => {
-    let newList = [...myTeam.players];
-    let index = newList.findIndex((x) => x.player.id === player.player.id);
-    newList.splice(index, 1);
-    setMyTeam((prevTeam) => {
-      return { coach: prevTeam.coach, players: newList };
-    });
-    // setPlayerList(newList);
+  const deletePlayerHandler = (player, type) => {
+    switch(type) {
+      case "coach" : 
+        setMyTeam((prevTeam) => {
+          return { coach: null, players: prevTeam.players };
+        });
+      break;
+      case "player":
+        let newList = [...myTeam.players];
+        let index = newList.findIndex((x) => x.player.id === player.player.id);
+        newList.splice(index, 1);
+        setMyTeam((prevTeam) => {
+          return { coach: prevTeam.coach, players: newList };
+        });
+      break;
+        
+    }
   };
 
   useImperativeHandle(ref, () => ({
     addPlayer(player, type) {
-      console.log(player, type);
       switch (type) {
         case "coach":
           setMyTeam((prevTeam) => {
@@ -63,66 +109,13 @@ const MyTeam = forwardRef((props, ref) => {
               validPlayer = false;
             }
 
-            //Check  for conditions
-            switch (player.statistics[0].games.position) {
-              case "Attacker":
-                if (
-                  auxList.filter(
-                    (x) => x.statistics[0].games.position === "Attacker"
-                  ).length >
-                  MaxAtck - 1
-                ) {
-                  console.log("te pasas de atackers");
-                  validPlayer = false;
-                }
-                break;
-              case "Goalkeeper":
-                if (
-                  auxList.filter(
-                    (x) => x.statistics[0].games.position === "Goalkeeper"
-                  ).length >
-                  MaxGoal - 1
-                ) {
-                  console.log("te pasas de golakeepers");
-                  validPlayer = false;
-                }
-                break;
-              case "Defender":
-                if (
-                  auxList.filter(
-                    (x) => x.statistics[0].games.position === "Defender"
-                  ).length >
-                  MaxDef - 1
-                ) {
-                  console.log("te pasas de defenders");
-                  validPlayer = false;
-                }
-                break;
-
-              case "Midfielder":
-                if (
-                  auxList.filter(
-                    (x) => x.statistics[0].games.position === "Midfielder"
-                  ).length >
-                  MaxMid - 1
-                ) {
-                  console.log("te pasas de midfielders");
-                  validPlayer = false;
-                }
-                break;
-            }
-
-            if (
-              auxList.filter((x) => x.player.teamId === player.player.teamId)
-                .length >
-              MaxSameTeam - 1
-            ) {
-              console.log("te pasas del mismo team");
+            if (validPlayer && auxList.filter((x) => x.player.teamId === player.player.teamId).length > MaxSameTeam - 1) {
+              alert("You can't add more than 4 players from the same team.")
               validPlayer = false;
             }
 
             if (auxList.length + 1 > MaxTeamSize) {
-              console.log("te pasas de jugadores");
+              alert("You can't add more than 16 players to your.")
               validPlayer = false;
             }
 
@@ -140,11 +133,17 @@ const MyTeam = forwardRef((props, ref) => {
           });
           break;
       }
-    },
+    }
   }));
 
-  if (myTeam.players?.length === 0) {
-    return <div></div>;
+  if (myTeam.players?.length === 0 && !myTeam.coach) {
+    return <div>
+      <div className="button-container">
+          {teamValid &&
+          <button onClick={() => saveTeamHandler()}>Save Your Team!</button>
+          }
+        </div>
+    </div>;
   } else {
     return (
       <div className="myteam-list-container">
@@ -158,10 +157,10 @@ const MyTeam = forwardRef((props, ref) => {
                   <span>{myTeam.coach.name} </span>
                   <span className="player-position">COACH</span>
                 </div>
-                <button
+                <button className="delete-button"
                   onClick={() => deletePlayerHandler(myTeam.coach, "coach")}
                 >
-                  <FontAwesomeIcon icon="plus" />
+                  <FontAwesomeIcon icon="minus" />
                 </button>
               </div>
             </li>
@@ -182,7 +181,7 @@ const MyTeam = forwardRef((props, ref) => {
                 </div>
                 <button
                   className="delete-button"
-                  onClick={() => deletePlayerHandler(player)}
+                  onClick={() => deletePlayerHandler(player, "player")}
                 >
                   <FontAwesomeIcon icon="minus" />
                 </button>
@@ -191,7 +190,9 @@ const MyTeam = forwardRef((props, ref) => {
           ))}
         </ul>
         <div className="button-container">
+          {teamValid &&
           <button onClick={() => saveTeamHandler()}>Save Your Team!</button>
+          }
         </div>
       </div>
     );
