@@ -1,4 +1,7 @@
 # AdidasFootBallTeam
+
+This is a prototype with basic styling of a Team maker using players from national teams.
+
 1. First of all you have to create an account on https://rapidapi.com/api-sports/api/api-football/ and subscribe to a plan to get your Api-key
 2. Paste your api-key into .env file like 'REACT_APP_API_KEY=YOURAPIKEY_1'
 
