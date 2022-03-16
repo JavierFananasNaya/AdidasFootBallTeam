@@ -81,6 +81,7 @@ const MyTeam = forwardRef((props, ref) => {
       localStorage.removeItem("myTeam");
     }
     localStorage.setItem("myTeam", JSON.stringify(myTeam));
+    alert(`Your team has been saved with ${myTeam.players.length} players!`)
   };
 
   const deletePlayerHandler = (player, type) => {
@@ -249,11 +250,6 @@ const MyTeam = forwardRef((props, ref) => {
             </li>
           ))}
         </ul>
-        <div className="button-container">
-          {teamValid && (
-            <button onClick={() => saveTeamHandler()}>Save Your Team!</button>
-          )}
-        </div>
       </div>
     );
   }

@@ -91,7 +91,9 @@ const Team = (props) => {
       
       return (
         <div className="player-list-container">
-          <div className="select-message">LOADING TEAM</div>
+          <div className="message-container">
+            <div>LOADING TEAM</div>
+          </div>
         </div>
       );
     } else if (error) {
@@ -100,7 +102,9 @@ const Team = (props) => {
   } else {
     return(
       <div className="player-list-container">
-        <div className="select-message">Select a team to load its info</div>
+        <div className="message-container">
+          <div>Select a team to load its info</div>
+        </div>
       </div> 
       )
   }
