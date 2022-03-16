@@ -1,8 +1,8 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
-import "./home.scss";
+import "./TeamSelector.scss";
 
-const Home = (props) => {
+const TeamSelector = (props) => {
   const selectTeamHandler = (team) => {
     props.onSelectTeam(team);
   };
@@ -58,4 +58,4 @@ const Home = (props) => {
     return <h2> Error: {error.message}</h2>;
   }
 };
-export default Home;
+export default TeamSelector;

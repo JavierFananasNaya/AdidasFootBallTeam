@@ -1,6 +1,6 @@
 import React, { useState, useRef } from "react";
-import Home from "./HomeComponent/home";
-import Team from "./TeamComponent/teams";
+import TeamSelector from "./HomeComponent/TeamSelector";
+import Team from "./TeamComponent/team";
 import MyTeam from "./MyTeamComponent/MyTeam";
 import './index.scss';
 
@@ -20,7 +20,7 @@ const Webpages = () => {
 
   return (
     <div className="layout">
-      <Home id="teamSelector" onSelectTeam={selectTeamHandler}></Home>
+      <TeamSelector id="teamSelector" onSelectTeam={selectTeamHandler}></TeamSelector>
       <Team id="squadSelector" selectedTeam={selectedTeam} onSelectPlayer={selectPlayerHandler}></Team>
       <MyTeam id="myTeam" ref={myTeamRef}></MyTeam>
     </div>
