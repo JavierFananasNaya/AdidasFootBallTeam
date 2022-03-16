@@ -6,7 +6,6 @@ import MyTeam from "./MyTeam";
 
 
 test('team is being saved when button clicked', () => {
-    expect(true).toBeTruthy()
     const component = render(<MyTeam id="myTeam"></MyTeam>);
     const buttonAdd = component.container.querySelector('.save-team-button');
     fireEvent.click(buttonAdd);

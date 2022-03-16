@@ -1,7 +1,6 @@
 .team-list {
-  height: 95vh;
+  height: 100vh;
   width: 33vw;
-  padding: 20px;
   overflow-y: auto;
   background-color: #181818;
 }
@@ -69,4 +68,11 @@ ul {
     box-shadow: 0 0 8px rgb(229, 234, 236);
   }
 
+}
+
+
+@media screen and (max-width: 768px) {
+  .team-logo {
+    width: 100%;
+  }
 }

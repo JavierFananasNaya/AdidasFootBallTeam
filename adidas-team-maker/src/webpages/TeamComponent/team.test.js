@@ -1,7 +1,6 @@
 import React from "react";
 import '@testing-library/jest-dom/extend-expect';
-import addPlayerHandler from './team'
-import { fireEvent, prettyDOM, render } from "@testing-library/react";
+import { fireEvent, render } from "@testing-library/react";
 import Team from "./team";
 import PlayerCard from "../PlayerCard/PlayerCard"
 

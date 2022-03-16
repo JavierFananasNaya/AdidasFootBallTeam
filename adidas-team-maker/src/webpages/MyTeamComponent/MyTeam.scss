@@ -1,5 +1,5 @@
 .myteam-list-container {
-  height: 97vh;
+  height: 100vh;
   width: 33vw;
   padding: 0 20px 20px 20px;
   overflow-y: auto;
@@ -22,12 +22,17 @@
   color: aliceblue;
   position: sticky;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-start;
   top: 0;
   width: 100%;
+  .button-container {
+    position: absolute;
+    top: 12px;
+    right: 2px;
+  }
   > img {
-    height: 10vh;
-    width: auto;
+    width: 9vh;
+    margin-right: 10px;
   }
 }
 
@@ -75,9 +80,21 @@
   }
 
   @media screen and (max-width: 768px) {
+    .myteam-list-container {
+      padding: 0 5px 20px 5px;
+      .my-team-header{
+        > img {
+          display: none;
+        }
+      }
+    }
     .player-container {
       display: flex;
       font-size: 1.5vh;
+      .team-logo {
+        height: 2vh;
+        margin-left: -8px;
+      }
       .player-name {
         display: flex;
         flex-wrap: wrap;
