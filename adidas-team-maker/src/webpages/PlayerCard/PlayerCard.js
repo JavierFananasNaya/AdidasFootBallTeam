@@ -16,10 +16,14 @@ const PlayerCard = (props) => {
     <div className="player-container">
       <div className="player-name">
         <img alt={player.player.name} className="player-photo" src={player.player.photo}></img>
-        <span>{player.player.name} </span>
-        <span className="player-position">
-          {player.statistics[0].games.position}
-        </span>
+        <div>
+          <span>{player.player.name} </span>
+        </div>
+        <div>
+          <span className="player-position">
+            {player.statistics[0].games.position}
+          </span>
+        </div>
       </div>
       <button onClick={() => addPlayerHandler(player, "player")}>
         <FontAwesomeIcon icon="plus" />
@@ -31,8 +35,12 @@ const PlayerCard = (props) => {
         <div className="player-container coach">
           <div className="player-name">
             <img alt={player.name} className="player-photo" src={player.photo}></img>
-            <span>{player.name} </span>
-            <span className="player-position">COACH</span>
+            <div>
+              <span>{player.name} </span>
+            </div>
+            <div>
+              <span className="player-position">COACH</span>
+            </div>
           </div>
           <button onClick={() => addPlayerHandler(player, 'coach')}>
             <FontAwesomeIcon icon="plus" />

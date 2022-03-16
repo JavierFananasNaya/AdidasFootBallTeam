@@ -29,6 +29,7 @@ const TeamSelector = (props) => {
   }, []);
   if (isLoaded && !error) {
     return (
+      <div>
       <div className="team-list">
         <ul>
           {teams.map((team) => (
@@ -37,7 +38,7 @@ const TeamSelector = (props) => {
                 className="team-button"
                 onClick={() => selectTeamHandler(team.team)}
                 key={team.team.id}
-              >
+                >
                 <div className="team-list-element">
                   <img className="team-logo" src={team.team.logo} alt="Logo" />
                   <div className="team-name">{team.team.name}</div>
@@ -47,6 +48,7 @@ const TeamSelector = (props) => {
           ))}
         </ul>
       </div>
+    </div>
     );
   } else if (!isLoaded && !error) {
     return (
